@@ -6,18 +6,17 @@ import AppText from './AppText';
 import defaultStyles from '../config/styles';
 import Screen from './Screen';
 import PickerItem from './PickerItem';
-import colors from '../config/colors';
 
-function AppPicker({ icon, onSelectItem, items, placeholder, selectedItem }) {
+function AppPicker({ icon, onSelectItem, numberOfColumns = 1, items, placeholder, PickerItemComponent = PickerItem, selectedItem, width = "100%" }) {
     const [modalVisible, setModalVisible] = useState(false)
 
     return (
         <React.Fragment>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
-                <View style={styles.container}>
-                    {icon && <MaterialCommunityIcons name={icon} size={20} color={defaultStyles.colors.medium} style={styles.icon} />}
+                <View style={[styles.container, { width }]}>
+                    {icon && (<MaterialCommunityIcons name={icon} size={20} color={defaultStyles.colors.medium} style={styles.icon} />)}
                     {selectedItem ? (<AppText style={styles.text}>{selectedItem.label}</AppText>) : (<AppText style={styles.placeholder}>{placeholder}</AppText>)}
-                    {icon && <MaterialCommunityIcons name="chevron-down" size={20} color={defaultStyles.colors.medium} />}
+                    <MaterialCommunityIcons name="chevron-down" size={20} color={defaultStyles.colors.medium} />
                 </View>
             </TouchableWithoutFeedback>
             <Modal visible={modalVisible} animationType="slide">
@@ -26,8 +25,10 @@ function AppPicker({ icon, onSelectItem, items, placeholder, selectedItem }) {
                     <FlatList 
                         data={items}
                         keyExtractor={item => item.value.toString()}
+                        numColumns={numberOfColumns}
                         renderItem={({ item }) => (
-                            <PickerItem 
+                            <PickerItemComponent 
+                                item={item}
                                 label={item.label}
                                 onPress={() => {
                                     setModalVisible(false);
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
         backgroundColor: defaultStyles.colors.light,
         borderRadius: 25,
         flexDirection: 'row',
-        width: '100%',
         padding: 15,
         marginVertical: 10,
         alignItems: 'center'
