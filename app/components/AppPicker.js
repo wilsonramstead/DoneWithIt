@@ -8,14 +8,22 @@ import Screen from './Screen';
 import PickerItem from './PickerItem';
 
 function AppPicker({ icon, onSelectItem, numberOfColumns = 1, items, placeholder, PickerItemComponent = PickerItem, selectedItem, width = "100%" }) {
-    const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <React.Fragment>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
                 <View style={[styles.container, { width }]}>
-                    {icon && (<MaterialCommunityIcons name={icon} size={20} color={defaultStyles.colors.medium} style={styles.icon} />)}
-                    {selectedItem ? (<AppText style={styles.text}>{selectedItem.label}</AppText>) : (<AppText style={styles.placeholder}>{placeholder}</AppText>)}
+                    {icon && (
+                        <MaterialCommunityIcons 
+                            name={icon} 
+                            size={20} 
+                            color={defaultStyles.colors.medium} 
+                            style={styles.icon} 
+                        />
+                    )}
+                    {/* {selectedItem ? (<AppText style={styles.text}>{selectedItem.label}</AppText>) : (<AppText style={styles.placeholder}>{placeholder}</AppText>)} */}
+                    <AppText style={styles.text}>{selectedItem ? selectedItem.label : placeholder}</AppText>
                     <MaterialCommunityIcons name="chevron-down" size={20} color={defaultStyles.colors.medium} />
                 </View>
             </TouchableWithoutFeedback>
@@ -27,10 +35,11 @@ function AppPicker({ icon, onSelectItem, numberOfColumns = 1, items, placeholder
                         keyExtractor={item => item.value.toString()}
                         numColumns={numberOfColumns}
                         renderItem={({ item }) => (
-                            <PickerItemComponent 
+                            <PickerItemComponent
                                 item={item}
                                 label={item.label}
                                 onPress={() => {
+                                    console.log('test');
                                     setModalVisible(false);
                                     onSelectItem(item);
                                 }}
