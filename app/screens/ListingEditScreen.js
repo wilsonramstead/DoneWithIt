@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 import { AppForm, AppFormField, AppFormPicker, SubmitButton } from '../components/forms';
 import Screen from '../components/Screen';
 import CategoryPickerItem from '../components/CategoryPickerItem';
+import FormImagePicker from '../components/forms/FormImagePicker';
 
 function ListingEditScreen(props) {
 
@@ -12,7 +13,8 @@ function ListingEditScreen(props) {
         title: Yup.string().required().min(1).label("Title"),
         price: Yup.number().required().min(1).max(10000).label("Price"),
         description: Yup.string().label("Description"),
-        category: Yup.object().required().nullable().label("Category")
+        category: Yup.object().required().nullable().label("Category"),
+        images: Yup.array().min(1, "Please select at least one image.")
     })
 
     const categories = [
@@ -34,11 +36,13 @@ function ListingEditScreen(props) {
                     title: "",
                     price: "",
                     description: "",
-                    category: null
+                    category: null,
+                    images: []
                 }}
                 onSubmit={(values) => console.log(values)}
                 validationSchema={validationSchema}
             >
+                <FormImagePicker name="images" />
                 <AppFormField maxLength={255} name="title" placeholder="Title" />
                 <AppFormField
                     keyboardType="numeric"
