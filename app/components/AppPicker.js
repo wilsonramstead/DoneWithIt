@@ -39,7 +39,6 @@ function AppPicker({ icon, onSelectItem, numberOfColumns = 1, items, placeholder
                                 item={item}
                                 label={item.label}
                                 onPress={() => {
-                                    console.log('test');
                                     setModalVisible(false);
                                     onSelectItem(item);
                                 }}
