@@ -9,16 +9,29 @@ import MessagesScreen from './app/screens/MessagesScreen';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import ImageInput from './app/components/ImageInput';
+import ImageInputList from './app/components/ImageInputList';
 import { Button, Image } from 'react-native';
 import AppButton from './app/components/AppButton';
 
 export default function App() {
 
-  const [imageUri, setImageUri] = useState();
+  const [imageUris, setImageUris] = useState([]);
+
+  const handleAdd = uri => {
+    setImageUris([...imageUris, uri])
+  }
+
+  const handleRemove = uri => {
+    setImageUris(imageUris.filter(imageUri => imageUri !== uri))
+  }
 
   return (
     <Screen>
-      <ImageInput imageUri={imageUri} onChangeImage={(uri) => setImageUri(uri)} />
+      <ImageInputList 
+        imageUris={imageUris}
+        onAddImage={handleAdd}
+        onRemoveImage={handleRemove}
+      />
     </Screen>
   );
 
