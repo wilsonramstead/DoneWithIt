@@ -4,7 +4,14 @@ import { ImageBackground, View, StyleSheet, Image, Text, Button } from 'react-na
 import colors from '../config/colors';
 import AppButton from '../components/AppButton'
 
-function WelcomeScreen(props) {
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+
+function WelcomeScreen({ navigation }) {
+
     return (
         <ImageBackground blurRadius={10} style={styles.background} source={require("../assets/background.jpg")}>
             <View style={styles.logoContainer}>
@@ -13,12 +20,10 @@ function WelcomeScreen(props) {
             </View>
 
             <View style={styles.buttonsContainer}>
-                <AppButton title="Login" onPress={() => console.log('login clicked')} />
-                <AppButton color="secondary" title="Register" onPress={() => console.log('register clicked')} />
+                <AppButton title="Login" onPress={() => navigation.navigate("Login")} />
+                <AppButton color="secondary" title="Register" onPress={() => navigation.navigate("Register")} />
             </View>
-
         </ImageBackground>
-
     );
 }
 

@@ -18,11 +18,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import WelcomeScreen from './app/screens/WelcomeScreen';
+import AuthNavigator from './app/navigation/AuthNavigator';
+import navigationTheme from './app/navigation/navigationTheme';
+import AppNavigator from './app/navigation/AppNavigator';
 
 const Link = () => {
-  
   const navigation = useNavigation();
-
   return (
     <Button title="Click" onPress={() => navigation.navigate("TweetDetails", {id: 1 })} />
   );
@@ -42,7 +44,7 @@ const TweetDetails = ({ route }) => (
 );
 
 const Stack = createStackNavigator();
-const FeedNavigator  = () => (
+const StackNavigator  = () => (
   <Stack.Navigator
     screenOptions={{
       // title: 'tweetDetails: ' + route.params.id, 
@@ -69,7 +71,7 @@ const TabNavigator = () => (
   >
     <Tab.Screen 
       name="Feed" 
-      component={FeedNavigator} 
+      component={StackNavigator} 
       options={{
         tabBarIcon: ({ size, color })  => <MaterialCommunityIcons name="home" size={size} color={color} />
       }}
@@ -84,10 +86,13 @@ const TabNavigator = () => (
   </Tab.Navigator> 
 );
 
+
 export default function App() {
   return (
-    <NavigationContainer>
-      <TabNavigator />
+    <NavigationContainer theme={navigationTheme}>
+      {/* <AuthNavigator /> */}
+      <AppNavigator />
     </NavigationContainer>
   );
 }
+
