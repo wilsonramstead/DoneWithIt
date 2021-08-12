@@ -15,17 +15,20 @@ function ListingEditScreen(props) {
     const [uploadScreenVisible, setUploadScreenVisible] = useState(false);
     const [progress, setProgress] = useState(0);
 
-    const handleSubmit = async (listing) => {
+    const handleSubmit = async (listing, {resetForm}) => {
         setProgress(0);
         setUploadScreenVisible(true);
         const result = await listingsApi.addListing(
             { ...listing, location },
             (progress) => setProgress(progress)
         );
-        setUploadScreenVisible(false);
 
-        if(!result.ok) return alert('Could not save the listing. ');
-        alert('Success');
+        if(!result.ok) {
+            setUploadScreenVisible(false);
+            return alert('Could not save the listing. ');
+        }
+
+        resetForm();
     }
 
     const validationSchema = Yup.object().shape({
@@ -50,7 +53,11 @@ function ListingEditScreen(props) {
 
     return (
         <Screen style={styles.container}>
-            <UploadScreen progress={progress} visible={uploadScreenVisible} />
+            <UploadScreen 
+                onDone={() => setUploadScreenVisible(false)} 
+                progress={progress} 
+                visible={uploadScreenVisible} 
+            />
             <AppForm
                 initialValues={{
                     title: "",
